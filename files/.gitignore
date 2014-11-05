@@ -1,0 +1,10 @@
+# os
+._*
+.DS_Store
+.AppleDouble
+.fuse_hidden*
+
+# external disk files
+.Spotlight-V100
+.Trashes
+

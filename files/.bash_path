@@ -1,0 +1,4 @@
+# ~/.bash_path: add any additions to the PATH here
+
+[ -d /usr/local/go/bin ] && PATH="/usr/local/go/bin:$PATH"
+

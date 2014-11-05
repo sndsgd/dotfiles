@@ -1,0 +1,27 @@
+[user]
+   name = Russell
+   email = r@snds.gd
+
+[color]
+   ui = auto
+
+[core]
+   editor = nano
+   excludesfile = ~/.gitignore
+
+   # whitespace errors
+   # spaces before tabs, lines that are indented with 8 or more spaces, and trailing whitespace
+   whitespace = space-before-tab,indent-with-non-tab,trailing-space
+
+[alias]
+   st = status
+   ca = commit -a
+   ci = commit
+   co = checkout
+   br = branch
+
+
+[apply]
+   # Detect whitespace errors when applying a patch
+   whitespace = fix
+

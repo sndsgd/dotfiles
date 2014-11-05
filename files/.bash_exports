@@ -1,0 +1,26 @@
+# ~/.bash_exports: set export variables to be established at login
+
+
+# Prefer US English and use UTF-8
+export LANGUAGE="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8"
+export LANG="en_US"
+
+
+# allow for more items in the history
+export HISTSIZE=32768
+export HISTFILESIZE=$HISTSIZE
+
+# ignore duplicates and commands that start with a space
+export HISTCONTROL=ignoreboth
+
+# commands to keep out of the history
+export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help"
+
+
+if [ "$OS_NAME" = "Darwin" ]; then
+   [ -d "$HOME/Documents/go" ] && export GOPATH=$HOME/Documents/go
+elif [ "$OS_NAME" = "Linux" ]; then
+   [ -d "$HOME/go" ] && export GOPATH=$HOME/go
+fi
+

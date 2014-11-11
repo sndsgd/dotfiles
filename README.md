@@ -6,6 +6,5 @@ Loosely based on [Mathias Bynens'](https://github.com/mathiasbynens/dotfiles) do
 
 ```bash
 git clone https://github.com/sndsgd/dotfiles.git
-dotfiles/update.sh && source ~/.bash_profile
+dotfiles/update.sh --local && source ~/.bash_profile
 ```
-

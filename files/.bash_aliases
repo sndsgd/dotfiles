@@ -30,6 +30,9 @@ elif [ "$OS_NAME" = "Darwin" ]; then
    [ -d "$HOME/Documents/git" ] && alias g="cd $HOME/Documents/git"
    alias dl="cd ~/Downloads"
 
+   alias showhf="defaults write com.apple.finder AppleShowAllFiles YES; killall Finder"
+   alias hidehf="defaults write com.apple.finder AppleShowAllFiles NO; killall Finder"
+
    # audio volume
    alias mute="osascript -e 'set volume 0'"
    alias loud="osascript -e 'set volume 10'"

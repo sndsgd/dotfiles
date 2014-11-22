@@ -78,6 +78,12 @@ if [ -e /usr/bin/git ]; then
    alias gph="git push"
 fi
 
+# closure compiler
+if [ -f /usr/local/lib/google/closure/compiler.jar ]; then
+   alias jscomp='java -jar /usr/local/lib/google/closure/compiler.jar'
+fi
+
+
 # clear the screen and buffer
 alias cls='tput reset'
 

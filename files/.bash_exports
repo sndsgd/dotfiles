@@ -24,3 +24,8 @@ elif [ "$OS_NAME" = "Linux" ]; then
    [ -d "$HOME/go" ] && export GOPATH=$HOME/go
 fi
 
+# closure library
+if [ -d /usr/local/lib/google/closure/library ]; then
+   export CLOSURE_LIBRARY=/usr/local/lib/google/closure/library
+fi
+

@@ -15,7 +15,7 @@ export HISTFILESIZE=$HISTSIZE
 export HISTCONTROL=ignoreboth
 
 # commands to keep out of the history
-export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help"
+export HISTIGNORE="cls:ls:cd:cd -:pwd:exit:date:* --help"
 
 
 if [ "$OS_NAME" = "Darwin" ]; then

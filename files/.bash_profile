@@ -9,7 +9,7 @@
 OS_NAME=$(uname)
 
 # include additional files
-for file in ~/.bash_{path,prompt,exports,aliases,functions,extra}; do
+for file in ~/.bash_{path,prompt,exports,aliases,functions,editor,extra}; do
    [ -r "$file" ] && source "$file"
 done
 unset file

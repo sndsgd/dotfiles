@@ -45,11 +45,6 @@ elif [ "$OS_NAME" = "Darwin" ]; then
    # use 'kickstart -activate' to activate
    # use 'kickstart -deactivate' to deactivate
    alias kickstart='/System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart'
-
-   # sublime text on the mac
-   if [ -e /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl ]; then
-      alias subl='/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl'
-   fi
 fi
 
 
@@ -67,6 +62,7 @@ alias .5="cd ../../../../.."
 if [ -e /usr/bin/git ]; then
    alias gst="git status"
    alias gci="git commit"
+   alias gca="git commit --amend"
    alias gcm="git commit -m"
    alias gco="git checkout"
    alias glg="git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"

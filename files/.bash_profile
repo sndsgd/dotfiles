@@ -2,9 +2,6 @@
 # LOADS ALL OTHER BASH COMPONENTS!
 
 
-# if it exists, add the user's private bin directory to the PATH
-[ -d "$HOME/bin" ] && PATH="$HOME/bin:$PATH"
-
 # host OS (Darwin, Linux)
 OS_NAME=$(uname)
 

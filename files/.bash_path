@@ -1,5 +1,7 @@
 # ~/.bash_path: add any additions to the PATH here
 
+
 [ -d /usr/local/sbin ] && PATH="/usr/local/sbin:$PATH"
 [ -d /usr/local/go/bin ] && PATH="/usr/local/go/bin:$PATH"
-
+[ -d "$HOME/.composer/vendor/bin" ] && PATH="$HOME/.composer/vendor/bin:$PATH"
+[ -d "$HOME/bin" ] && PATH="$HOME/bin:$PATH"

@@ -22,3 +22,12 @@ if [ "$OS_NAME" = "Darwin" ]; then
    }
 fi
 
+
+# if git is present, create a function for removing git tags
+if [ -e /usr/bin/git ]; then
+   function rmgittag() {
+      git tag -d "$1"
+      [ "$?" == "0" ] && git push origin ":refs/tags/$1"
+   }
+fi
+

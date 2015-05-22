@@ -20,6 +20,9 @@ if [ "$OS_NAME" = "Darwin" ]; then
    function startvm() {
       VBoxManage startvm $1 --type headless
    }
+   function restorevm() {
+      VBoxManage snapshot $1 restore $2
+   }
 fi
 
 

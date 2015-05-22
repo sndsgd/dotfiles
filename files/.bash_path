@@ -1,5 +1,7 @@
 # ~/.bash_path: add any additions to the PATH here
 
+which brew
+[ $? -eq 0] && PATH="$(brew --prefix php56)/bin:$PATH"
 
 [ -d /usr/local/sbin ] && PATH="/usr/local/sbin:$PATH"
 [ -d /usr/local/go/bin ] && PATH="/usr/local/go/bin:$PATH"

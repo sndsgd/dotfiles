@@ -1,5 +1,3 @@
-# ~/.bash_editor: set sublime text as the default editor
-
 
 if [ "$OS_NAME" = "Darwin" ]; then
    if [ -e /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl ]; then
@@ -8,4 +6,3 @@ if [ "$OS_NAME" = "Darwin" ]; then
       export EDITOR='/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl -w'
    fi
 fi
-

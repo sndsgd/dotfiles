@@ -1,15 +1,6 @@
-# ~/.bash_profile: executed by bash for login shells.
-# LOADS ALL OTHER BASH COMPONENTS!
-
 
 # host OS (Darwin, Linux)
 OS_NAME=$(uname)
-
-# include additional files
-for file in ~/.bash_{path,prompt,exports,aliases,functions,editor,extra}; do
-   [ -r "$file" ] && source "$file"
-done
-unset file
 
 # case-insensitive globbing (used in pathname expansion)
 shopt -s nocaseglob
@@ -26,7 +17,7 @@ shopt -s checkwinsize
 
 # set variable identifying the chroot you work in (used in the prompt below)
 if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
+   debian_chroot=$(cat /etc/debian_chroot)
 fi
 
 # enable programmable completion features (you don't need to enable
@@ -42,4 +33,3 @@ if [ -n "$SSH_CLIENT" ]; then
 else
    date >> ~/.login_history
 fi
-

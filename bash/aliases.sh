@@ -1,5 +1,3 @@
-# ~/.bash_aliases: set aliases to load at login
-
 
 # enable sudo in aliases
 alias sudo='sudo '
@@ -19,7 +17,6 @@ if [ "$OS_NAME" = "Linux" ]; then
    alias cpu10='ps auxf | sort -nr -k 4 | head -10'
 
    # daemon shortcuts
-   alias d.a2='sudo /etc/init.d/apache2'
    alias d.nx='sudo service nginx'
    alias d.memc='sudo /etc/init.d/memcached'
    alias log.auth="cat /var/log/auth.log | grep -v 'pam_unix(cron:session)'"
@@ -45,6 +42,10 @@ elif [ "$OS_NAME" = "Darwin" ]; then
    # use 'kickstart -activate' to activate
    # use 'kickstart -deactivate' to deactivate
    alias kickstart='/System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart'
+
+   # php versions
+   # TODO: update this so all versions are scanned and added
+   [ -x /usr/local/Cellar/php54/5.4.36/bin/php ] && alias php54=/usr/local/Cellar/php54/5.4.36/bin/php
 fi
 
 

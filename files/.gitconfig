@@ -1,7 +1,3 @@
-[user]
-   name = Russell
-   email = r@snds.gd
-
 [color]
    ui = auto
 
@@ -20,8 +16,6 @@
    co = checkout
    br = branch
 
-
 [apply]
    # Detect whitespace errors when applying a patch
    whitespace = fix
-

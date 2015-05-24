@@ -1,16 +1,14 @@
-# ~/.bash_functions: functions to load on login
-
 
 # create a data URL from a file
+# @param string The path to the file to encode
 function dataurl() {
-   local mimeType=$(file -b --mime-type "$1")
-   if [[ $mimeType == text/* ]]; then
-      mimeType="${mimeType};charset=utf-8"
-   fi
-   echo "data:${mimeType};base64,$(openssl base64 -in "$1" | tr -d '\n')"
+   local MIME_TYPE=$(file -b --mime-type "$1")
+   [ "$MIME_TYPE" == "text/*" ] && MIME_TYPE="${mimeType};charset=utf-8"
+   echo "data:$MIME_TYPE;base64,$(openssl base64 -in "$1" | tr -d '\n')"
 }
 
 # make a directory and make it the current working directory
+# @param string The directory path
 function mcd() { 
    mkdir -pv $1 && cd $1
 }
@@ -33,4 +31,5 @@ if [ -e /usr/bin/git ]; then
       [ "$?" == "0" ] && git push origin ":refs/tags/$1"
    }
 fi
+
 

@@ -1,53 +1,72 @@
 #!/bin/bash
 
-OS_NAME=$(uname)
+DOTFILE=".bash_include"
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+TMP_FILE="$DIR/temp.sh"
+BASH_FILES_DIR="$DIR/bash"
+BASH_INCLUDE_LINE='[ -f "$HOME/'$DOTFILE'" ] && source "$HOME/'$DOTFILE'"'
+BASH_EXTRA_LINE='[ -f "$HOME/.bash_extra" ] && source "$HOME/.bash_extra"'
 
 
-create_git_dir() {
-   if [ ! -d "$1" ]; then
-      echo "creating git directory in '$1'"
-      mkdir -pv "$1"
+[ -f "$TMP_FILE" ] && rm "$TMP_FILE"
+
+
+sndsgd_section_header() {
+   local COMMENT="# $1 "
+   local X=78
+   local LEN=$(expr $X - ${#COMMENT})
+   COMMENT+=$(printf "#%.0s" $(seq 1 $LEN))"\n"
+   COMMENT+=$(printf "#%.0s" $(seq 1 $X))"\n"
+   echo -e "$COMMENT"
+}
+
+sndsgd_include_file() {
+   local NAME=$1
+   local FILE="$BASH_FILES_DIR/$NAME.sh"
+   if [ -r "$FILE" ]; then
+      sndsgd_section_header "$NAME" >> $TMP_FILE
+      cat "$FILE" >> $TMP_FILE
+      printf "\n\n\n" >> $TMP_FILE
+   else
+      echo "$NAME (skipped)"
    fi
 }
 
-link_ssh_config() {
-   local DEST_PATH="$HOME/.ssh/config"
-   local SOURCE_PATH="$1"
-   if [ ! -f "$DEST_PATH" ] && [ -f "$SOURCE_PATH" ]; then
-      echo "creating link to ssh config in $SOURCE_PATH"
-      ln -s "$SOURCE_PATH" "$DEST_PATH"
-      chmod 600 "$DEST_PATH"
-   fi
-}
+
+echo "creating ~/$DOTFILE..."
+for INCLUDE_NAME in {init,path,exports,php,go,prompt,aliases,functions,editor}; do
+   sndsgd_include_file "$INCLUDE_NAME"
+done
+mv $TMP_FILE "$HOME/$DOTFILE"
 
 
-# setup tasks ###############################################################
-#############################################################################
 
-OS_NAME=$(uname)
-
-[ ! -d "$HOME/.ssh" ] && mkdir -pv "$HOME/.ssh"
-
-if [ "$OS_NAME" = "Darwin" ]; then
-   create_git_dir "$HOME/Documents/git"
-   link_ssh_config "$HOME/Dropbox/Documents/ssh/config"
-elif [ "$OS_NAME" = "Linux" ]; then
-   create_git_dir "$HOME/git"
+if [ ! -f "$HOME/.bash_profile" ]; then
+   echo "creating ~/.bash_profile..."
+   printf "#!/bin/bash\n\n" >> "$HOME/.bash_profile"
+else
+   echo "updating ~/.bash_profile..."
 fi
 
+for INSERT_LINE in {"$BASH_INCLUDE_LINE","$BASH_EXTRA_LINE"}; do
+   if ! grep -Fxq "$INSERT_LINE" "$HOME/.bash_profile"; then
+      echo "$INSERT_LINE" >> "$HOME/.bash_profile"
+   fi
+done
 
-# copy files into $HOME #####################################################
-#############################################################################
 
 echo "copying files..."
 rsync --exclude ".DS_Store" --archive --quiet "$DIR/files/." "$HOME"
 
 
-# cleanup ###################################################################
-#############################################################################
-
-unset OS_NAME
+# cleanup: unset all variables
+unset DOTFILE
 unset DIR
-unset create_git_dir
-unset link_ssh_config
+unset TMP_FILE
+unset BASH_FILES_DIR
+unset INCLUDE_NAME
+unset BASH_INCLUDE_LINE
+unset BASH_EXTRA_LINE
+unset INSERT_LINE
+unset sndsgd_include_file
+unset sndsgd_section_header

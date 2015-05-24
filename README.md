@@ -39,12 +39,7 @@ To configure yourself as the git author, update the following block with your na
 ```sh
 cat << EOF >> "$HOME/.bash_extra"
 # git credentials
-# only update the next two lines
-GIT_AUTHOR_NAME="Russell"
-GIT_AUTHOR_EMAIL="r@snds.gd"
-GIT_COMMITTER_NAME="\$GIT_AUTHOR_NAME"
-GIT_COMMITTER_EMAIL="\$GIT_AUTHOR_EMAIL"
-git config --global user.name "\$GIT_AUTHOR_NAME"
-git config --global user.email "\$GIT_AUTHOR_EMAIL"
+git config --global user.name "Russell"
+git config --global user.email "r@snds.gd"
 EOF
 ```

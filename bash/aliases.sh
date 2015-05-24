@@ -42,10 +42,6 @@ elif [ "$OS_NAME" = "Darwin" ]; then
    # use 'kickstart -activate' to activate
    # use 'kickstart -deactivate' to deactivate
    alias kickstart='/System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart'
-
-   # php versions
-   # TODO: update this so all versions are scanned and added
-   [ -x /usr/local/Cellar/php54/5.4.36/bin/php ] && alias php54=/usr/local/Cellar/php54/5.4.36/bin/php
 fi
 
 

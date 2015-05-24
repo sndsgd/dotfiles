@@ -12,7 +12,7 @@ prompt_git_branch() {
 
 PS1=""
 
-[ -n "$SSH_CLIENT" ] && PS1+="SSH "
+[ -n "$SSH_CLIENT" ] && PS1+="\[\e[1;7m\] ssh \[\e[0m\]"
 
 # hostname
 [ "$OS_NAME" == "Darwin" ] && PS1+="\[\e[1;30;46m\] " || PS1+="\[\e[1;30;42m\] "

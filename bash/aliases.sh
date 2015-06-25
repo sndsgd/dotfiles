@@ -42,6 +42,8 @@ elif [ "$OS_NAME" = "Darwin" ]; then
    # use 'kickstart -activate' to activate
    # use 'kickstart -deactivate' to deactivate
    alias kickstart='/System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart'
+
+   alias lockdown='open -a /System/Library/Frameworks/ScreenSaver.framework/Versions/A/Resources/ScreenSaverEngine.app'
 fi
 
 

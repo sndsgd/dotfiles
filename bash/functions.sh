@@ -14,12 +14,23 @@ function mcd() {
 }
 
 
-if [ "$OS_NAME" = "Darwin" ]; then
+if [ "$OS_NAME" = "Darwin" ] && [ -e /usr/bin/vboxmanage ]; then
+   # @param string vmname
    function startvm() {
       VBoxManage startvm $1 --type headless
    }
+
+   # @param string vmname
+   # @param string snapshot
    function restorevm() {
       VBoxManage snapshot $1 restore $2
+   }
+
+   # @param string vmname
+   # @param string snapshot
+   function rstartvm() {
+      VBoxManage snapshot $1 restore $2
+      VBoxManage startvm $1 --type headless
    }
 fi
 

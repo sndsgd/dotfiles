@@ -31,3 +31,14 @@ export PS1
 # PS2
 PS2="\[\e[0m\]↳ "
 export PS2
+
+
+# update the osx terminal tab title to the current directory
+# @see http://akrabat.com/setting-os-xs-terminal-tab-to-the-current-directory
+if [ "$OS_NAME" == "Darwin" ]; then
+   function set_tab_title() {
+      echo -n -e "\033]0;${PWD##*/}\007"
+   }
+   PROMPT_COMMAND="set_tab_title ; $PROMPT_COMMAND"
+fi
+

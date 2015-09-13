@@ -9,12 +9,13 @@ function dataurl() {
 
 # make a directory and make it the current working directory
 # @param string The directory path
-function mcd() { 
+function mcd() {
    mkdir -pv $1 && cd $1
 }
 
 
-if [ "$OS_NAME" = "Darwin" ] && [ -e /usr/bin/vboxmanage ]; then
+if [ "$OS_NAME" == "Darwin" ] && [ -e /usr/bin/vboxmanage ]; then
+
    # @param string vmname
    function startvm() {
       VBoxManage startvm $1 --type headless
@@ -35,12 +36,30 @@ if [ "$OS_NAME" = "Darwin" ] && [ -e /usr/bin/vboxmanage ]; then
 fi
 
 
-# if git is present, create a function for removing git tags
 if [ -e /usr/bin/git ]; then
-   function rmgittag() {
+
+   # remove a tag from both local and remote repos
+   # @param string tagname The git tag to remove
+   function git-rmtag() {
       git tag -d "$1"
       [ "$?" == "0" ] && git push origin ":refs/tags/$1"
    }
+
+   # recursively find modified git repos
+   function gitmod() {
+      local REPO="" 
+      local DIR=""
+      local CHANGED=0
+
+      for REPO in $(find . -type d -name ".git"); do
+         DIR=$(dirname "$REPO")
+         cd "$DIR"
+         git status -s | grep -v '??' &> /dev/null && {
+            echo -ne "$DIR\n"
+            let CHANGED=${CHANGED}+1
+         }
+         cd - &> /dev/null
+      done
+      echo -ne "---\nfound $CHANGED repos with modifications\n"
+   }
 fi
-
-

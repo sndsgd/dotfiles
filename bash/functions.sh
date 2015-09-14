@@ -29,7 +29,7 @@ if [ "$OS_NAME" == "Darwin" ] && [ -e /usr/bin/vboxmanage ]; then
 
    # @param string vmname
    # @param string snapshot
-   function rstartvm() {
+   function restartvm() {
       VBoxManage snapshot $1 restore $2
       VBoxManage startvm $1 --type headless
    }
@@ -40,7 +40,7 @@ if [ -e /usr/bin/git ]; then
 
    # remove a tag from both local and remote repos
    # @param string tagname The git tag to remove
-   function git-rmtag() {
+   function gitremovetag() {
       git tag -d "$1"
       [ "$?" == "0" ] && git push origin ":refs/tags/$1"
    }

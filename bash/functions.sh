@@ -50,7 +50,6 @@ if [ -e /usr/bin/git ]; then
       local REPO="" 
       local DIR=""
       local CHANGED=0
-
       for REPO in $(find . -type d -name ".git"); do
          DIR=$(dirname "$REPO")
          cd "$DIR"
@@ -61,5 +60,23 @@ if [ -e /usr/bin/git ]; then
          cd - &> /dev/null
       done
       echo -ne "---\nfound $CHANGED repos with modifications\n"
+   }
+
+   # replace the current git config with another
+   # @param string The name of the user to become
+   function gituser() {
+      local USER="$1"
+      local GITCONFIG="$HOME/.gitconfig"
+      local FILE="$GITCONFIG-$USER"
+      if [ ! -f "$FILE" ]; then
+         echo "no git config for '$USER'"
+         return 1
+      fi
+      cp "$FILE" "$GITCONFIG"
+      if [ "$?" != 0 ]; then
+         echo "failed to copy git config for $USER"
+         return 1
+      fi
+      echo "now using $USER's gitconfig"
    }
 fi

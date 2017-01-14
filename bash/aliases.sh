@@ -2,30 +2,22 @@
 # enable sudo in aliases
 alias sudo='sudo '
 
-# ssh agent
-alias ssh-add='eval $(ssh-agent) && ssh-add'
+# cd shortcuts
+[ -d "$HOME/Documents/git" ] && alias g="cd $HOME/Documents/git"
+alias dl="cd ~/Downloads"
 
 
 if [ "$OS_NAME" = "Linux" ]; then
    COLOR_FLAG="--color=auto"
 
-   # cd shortcuts
-   [ -d "$HOME/git" ] && alias g="cd $HOME/git"
-
    # get the top 10 memory/cpu users
    alias mem10='ps auxf | sort -nr -k 4 | head -10'
    alias cpu10='ps auxf | sort -nr -k 4 | head -10'
 
-   # daemon shortcuts
-   alias d.nx='sudo service nginx'
-   alias d.memc='sudo /etc/init.d/memcached'
+   # list entires from the auth log that aren't cron
    alias log.auth="cat /var/log/auth.log | grep -v 'pam_unix(cron:session)'"
 elif [ "$OS_NAME" = "Darwin" ]; then
    COLOR_FLAG="-G"
-
-   # cd shortcuts
-   [ -d "$HOME/Documents/git" ] && alias g="cd $HOME/Documents/git"
-   alias dl="cd ~/Downloads"
 
    alias showhf="defaults write com.apple.finder AppleShowAllFiles YES; killall Finder"
    alias hidehf="defaults write com.apple.finder AppleShowAllFiles NO; killall Finder"
@@ -57,7 +49,7 @@ alias .4="cd ../../../../"
 alias .5="cd ../../../../.."
 
 
-# git 
+# git
 if [ -e /usr/bin/git ]; then
    alias gst="git status"
    alias gci="git commit"

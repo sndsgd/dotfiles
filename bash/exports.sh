@@ -13,4 +13,3 @@ export HISTCONTROL=ignoreboth
 
 # commands to keep out of the history
 export HISTIGNORE="cls:ls:cd:cd -:pwd:exit:date:* --help"
-

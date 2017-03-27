@@ -13,7 +13,6 @@ function mcd() {
     mkdir -pv $1 && cd $1
 }
 
-
 if [ "$OS_NAME" == "Darwin" ] && [ -e /usr/bin/vboxmanage ]; then
 
     # @param string vmname
@@ -35,7 +34,6 @@ if [ "$OS_NAME" == "Darwin" ] && [ -e /usr/bin/vboxmanage ]; then
     }
 fi
 
-
 if [ -e /usr/bin/git ]; then
 
     # checkout a git branch
@@ -48,7 +46,7 @@ if [ -e /usr/bin/git ]; then
 
         local BRANCHES=$(git branch | grep $1 | sed -e s/\\*//g | xargs)
         local COUNT=$(echo "$BRANCHES" | wc -w | xargs)
-        
+
         if [ $COUNT == 1 ]; then
             git checkout "$BRANCHES"
             return 0
@@ -62,10 +60,9 @@ if [ -e /usr/bin/git ]; then
         for BRANCH in $BRANCHES
         do
             echo "- $BRANCH"
-        done    
+        done
         return 1
     }
-
 
     # remove a tag from both local and remote repos
     # @param string The git tag to remove
@@ -73,10 +70,10 @@ if [ -e /usr/bin/git ]; then
         git tag -d "$1"
         [ "$?" == "0" ] && git push origin ":refs/tags/$1"
     }
- 
+
     # recursively find modified git repos
     function gitmod() {
-        local REPO="" 
+        local REPO=""
         local DIR=""
         local CHANGED=0
         for REPO in $(find . -type d -name ".git"); do

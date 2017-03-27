@@ -7,4 +7,3 @@
 
 
 [ -d /usr/local/go/bin ] && PATH="/usr/local/go/bin:$PATH"
-

@@ -4,40 +4,38 @@ alias sudo='sudo '
 
 # cd shortcuts
 [ -d "$HOME/Documents/git" ] && alias g="cd $HOME/Documents/git"
-alias dl="cd ~/Downloads"
-
+[ -d "$HOME/Downloads" ] && alias dl="cd ~/Downloads"
 
 if [ "$OS_NAME" = "Linux" ]; then
-   COLOR_FLAG="--color=auto"
+    COLOR_FLAG="--color=auto"
 
-   # get the top 10 memory/cpu users
-   alias mem10='ps auxf | sort -nr -k 4 | head -10'
-   alias cpu10='ps auxf | sort -nr -k 4 | head -10'
+    # get the top 10 memory/cpu users
+    alias mem10='ps auxf | sort -nr -k 4 | head -10'
+    alias cpu10='ps auxf | sort -nr -k 4 | head -10'
 
-   # list entires from the auth log that aren't cron
-   alias log.auth="cat /var/log/auth.log | grep -v 'pam_unix(cron:session)'"
+    # list entires from the auth log that aren't cron
+    alias log.auth="cat /var/log/auth.log | grep -v 'pam_unix(cron:session)'"
 elif [ "$OS_NAME" = "Darwin" ]; then
-   COLOR_FLAG="-G"
+    COLOR_FLAG="-G"
 
-   alias showhf="defaults write com.apple.finder AppleShowAllFiles YES; killall Finder"
-   alias hidehf="defaults write com.apple.finder AppleShowAllFiles NO; killall Finder"
+    alias showhf="defaults write com.apple.finder AppleShowAllFiles YES; killall Finder"
+    alias hidehf="defaults write com.apple.finder AppleShowAllFiles NO; killall Finder"
 
-   # audio volume
-   alias mute="osascript -e 'set volume 0'"
-   alias loud="osascript -e 'set volume 10'"
+    # audio volume
+    alias mute="osascript -e 'set volume 0'"
+    alias loud="osascript -e 'set volume 10'"
 
-   # ip address info
-   alias localip="ipconfig getifaddr en1"
-   alias ips="ifconfig -a | grep -o 'inet6\? \(\([0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+\)\|[a-fA-F0-9:]\+\)' | sed -e 's/inet6* //'"
+    # ip address info
+    alias localip="ipconfig getifaddr en1"
+    alias ips="ifconfig -a | grep -o 'inet6\? \(\([0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+\)\|[a-fA-F0-9:]\+\)' | sed -e 's/inet6* //'"
 
-   # kickstart
-   # use 'kickstart -activate' to activate
-   # use 'kickstart -deactivate' to deactivate
-   alias kickstart='/System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart'
+    # kickstart
+    # use 'kickstart -activate' to activate
+    # use 'kickstart -deactivate' to deactivate
+    alias kickstart='/System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart'
 
-   alias lockdown='open -a /System/Library/Frameworks/ScreenSaver.framework/Versions/A/Resources/ScreenSaverEngine.app'
+    alias lockdown='open -a /System/Library/Frameworks/ScreenSaver.framework/Versions/A/Resources/ScreenSaverEngine.app'
 fi
-
 
 # more cd shortcuts
 alias h="cd ~"
@@ -48,28 +46,26 @@ alias .3="cd ../../.."
 alias .4="cd ../../../../"
 alias .5="cd ../../../../.."
 
-
 # git
 if [ -e /usr/bin/git ]; then
-   alias gst="git status"
-   alias gci="git commit"
-   alias gca="git commit --amend"
-   alias gcm="git commit -m"
-   alias gco="git checkout"
-   alias glg="git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
-   alias gbr="git branch"
-   alias gr="git remote"
-   alias gdf="git diff"
-   alias ga="git add"
-   alias gul="git pull"
-   alias gph="git push"
+    alias gst="git status"
+    alias gci="git commit"
+    alias gca="git commit --amend"
+    alias gcm="git commit -m"
+    alias gco="git checkout"
+    alias glg="git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+    alias gbr="git branch"
+    alias gr="git remote"
+    alias gdf="git diff"
+    alias ga="git add"
+    alias gul="git pull"
+    alias gph="git push"
 fi
 
 # closure compiler
 if [ -f /usr/local/lib/google/closure/compiler.jar ]; then
-   alias jscomp='java -jar /usr/local/lib/google/closure/compiler.jar'
+    alias jscomp='java -jar /usr/local/lib/google/closure/compiler.jar'
 fi
-
 
 # clear the screen and buffer
 alias cls='tput reset'

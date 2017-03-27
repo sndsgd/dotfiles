@@ -17,19 +17,19 @@ shopt -s checkwinsize
 
 # set variable identifying the chroot you work in (used in the prompt below)
 if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
-   debian_chroot=$(cat /etc/debian_chroot)
+    debian_chroot=$(cat /etc/debian_chroot)
 fi
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
-   source /etc/bash_completion
+    source /etc/bash_completion
 fi
 
 # stash the login timestamp & ip address
 if [ -n "$SSH_CLIENT" ]; then
-   echo $(date)" -- ${SSH_CLIENT%% *}" >> ~/.login_history
+    echo $(date)" -- ${SSH_CLIENT%% *}" >> ~/.login_history
 else
-   date >> ~/.login_history
+    date >> ~/.login_history
 fi

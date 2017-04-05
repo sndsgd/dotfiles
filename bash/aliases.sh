@@ -11,7 +11,7 @@ if [ "$OS_NAME" = "Linux" ]; then
 
     # get the top 10 memory/cpu users
     alias mem10='ps auxf | sort -nr -k 4 | head -10'
-    alias cpu10='ps auxf | sort -nr -k 4 | head -10'
+    alias cpu10='ps auxf | sort -nr -k 3 | head -10'
 
     # list entires from the auth log that aren't cron
     alias log.auth="cat /var/log/auth.log | grep -v 'pam_unix(cron:session)'"

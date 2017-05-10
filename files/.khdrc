@@ -1,0 +1,83 @@
+# enable kwm compatibility mode
+khd kwm on
+
+# set color of default mode
+khd mode default color 0xff444444
+
+# enable the prefix mode
+khd mode prefix prefix on
+khd mode prefix timeout 1
+khd mode prefix restore default
+khd mode prefix color 0xFF458588
+
+# activate prefix mode
+ctrl - s                 :    /usr/local/bin/khd -e "mode activate prefix"
+
+# quit kwm
+cmd + alt + ctrl - q     :    /usr/local/bin/kwmc quit
+
+# rotate window-tree by 90degrees (clockwise)
+cmd + ctrl - r           :    /usr/local/bin/kwmc tree rotate 90
+
+# modify container
+prefix - s               :    /usr/local/bin/kwmc window -c split-mode toggle
+prefix - 0x32            :    /usr/local/bin/kwmc window -c type toggle
+
+# increase window container size
+prefix - h               :    /usr/local/bin/kwmc window -c expand 0.05 west
+prefix - j               :    /usr/local/bin/kwmc window -c expand 0.05 south
+prefix - k               :    /usr/local/bin/kwmc window -c expand 0.05 north
+prefix - l               :    /usr/local/bin/kwmc window -c expand 0.05 east
+
+# decrease window container size
+prefix + shift - h       :    /usr/local/bin/kwmc window -c reduce 0.05 west
+prefix + shift - j       :    /usr/local/bin/kwmc window -c reduce 0.05 south
+prefix + shift - k       :    /usr/local/bin/kwmc window -c reduce 0.05 north
+prefix + shift - l       :    /usr/local/bin/kwmc window -c reduce 0.05 east
+
+# set temporary window container
+prefix - f               :    /usr/local/bin/kwmc window -z fullscreen
+prefix - d               :    /usr/local/bin/kwmc window -z parent
+prefix - w               :    /usr/local/bin/kwmc window -t focused
+
+# give focus to window
+alt - h            :    /usr/local/bin/kwmc window -f west
+alt - l            :    /usr/local/bin/kwmc window -f east
+alt - j            :    /usr/local/bin/kwmc window -f south
+alt - k            :    /usr/local/bin/kwmc window -f north
+
+# give focus to screen
+cmd + alt - 1            :    /usr/local/bin/kwmc display -f 0
+cmd + alt - 2            :    /usr/local/bin/kwmc display -f 1
+cmd + alt - 3            :    /usr/local/bin/kwmc display -f 2
+
+# swap focused window
+ctrl + alt - h           :    /usr/local/bin/kwmc window -s west
+ctrl + alt - j           :    /usr/local/bin/kwmc window -s south
+ctrl + alt - k           :    /usr/local/bin/kwmc window -s north
+ctrl + alt - l           :    /usr/local/bin/kwmc window -s east
+ctrl + alt - m           :    /usr/local/bin/kwmc window -s mark
+
+# detach focused window and reinsert in direction
+ctrl + shift - k         :    /usr/local/bin/kwmc window -m north
+ctrl + shift - l         :    /usr/local/bin/kwmc window -m east
+ctrl + shift - j         :    /usr/local/bin/kwmc window -m south
+ctrl + shift - h         :    /usr/local/bin/kwmc window -m west
+
+# move focused window to space
+alt + shift - 1        :    /usr/local/bin/kwmc window -m space 1
+alt + shift - 2        :    /usr/local/bin/kwmc window -m space 2
+alt + shift - 3        :    /usr/local/bin/kwmc window -m space 3
+alt + shift - 4        :    /usr/local/bin/kwmc window -m space 4
+alt + shift - 5        :    /usr/local/bin/kwmc window -m space 5
+alt + shift - 6        :    /usr/local/bin/kwmc window -m space 6
+alt + shift - 7        :    /usr/local/bin/kwmc window -m space 7
+alt + shift - 8        :    /usr/local/bin/kwmc window -m space 8
+alt + shift - 9        :    /usr/local/bin/kwmc window -m space 9
+alt + shift - 0        :    /usr/local/bin/kwmc window -m space 0
+
+# move focused window to screen
+ctrl + alt - 1           :    /usr/local/bin/kwmc window -m display 0
+ctrl + alt - 2           :    /usr/local/bin/kwmc window -m display 1
+
+lalt + return: open -na /Applications/Utilities/Terminal.app

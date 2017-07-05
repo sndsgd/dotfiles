@@ -106,3 +106,15 @@ if [ -e /usr/bin/git ]; then
         echo "now using $USER's gitconfig"
     }
 fi
+
+# check an ssl certificate's expiration date
+# @param string The domain to check the expiration for
+function ssl_expiry() {
+    local HOST="$1"
+    if [ -z "$HOST" ]; then
+        echo "expecting a domain name as the sole argument"
+        return 1
+    fi
+
+    echo | openssl s_client -servername $HOST -connect $HOST:443 2>/dev/null | openssl x509 -noout -dates
+}

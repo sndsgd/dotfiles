@@ -1,0 +1,35 @@
+#!/usr/bin/env php
+<?php
+
+$file = $argv[1];
+$borderSize = $argv[2] ?? 15;
+
+# fetch the top left pixel to determine the bacground color
+$rgb = exec_convert(sprintf(
+    'convert %s[1x1+0+0] -format "%s" info:',
+    escapeshellarg($file),
+    '%[fx:floor(255*u.r)],%[fx:floor(255*u.g)],%[fx:floor(255*u.b)]'
+));
+
+# trim the image, then apply a border
+exec_convert(sprintf(
+    'convert %s -flatten -trim -bordercolor "%s" -border %dx%d -flatten %s',
+    escapeshellarg($file),
+    "rgb($rgb)",
+    $borderSize,
+    $borderSize,
+    escapeshellarg($file)
+));
+
+function exec_convert(string $command): string
+{
+    echo "$command\n";
+    exec($command, $lines, $exitcode);
+    $output = implode("\n", $lines);
+    if ($exitcode === 0) {
+        return trim($output);
+    }
+
+    echo "command failed\ncommand: $command\nresult: $output\n";
+    exit(0);
+}

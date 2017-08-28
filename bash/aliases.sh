@@ -60,6 +60,7 @@ if [ -e /usr/bin/git ]; then
     alias ga="git add"
     alias gul="git pull"
     alias gph="git push"
+    alias gcp='echo -n `git rev-parse --abbrev-ref HEAD` | pbcopy'
 fi
 
 # closure compiler

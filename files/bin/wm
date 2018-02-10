@@ -1,0 +1,32 @@
+#!/bin/bash
+# simple script for starting, stopping, and reloading chunkwm
+# https://github.com/koekeishiya/chunkwm
+
+if [ $(uname) != "Darwin" ]; then
+    echo "chunkwm is only available on macos"
+    exit 1
+fi
+
+declare -a plists=("com.koekeishiya.chunkwm" "com.koekeishiya.skhd")
+
+# @param string The command to execute ('start', 'stop', or 'reload')
+function exec_command {
+    local cmd=$([ "$1" == "stop" ] && echo "unload" || echo "load")
+    for i in "${plists[@]}"; do
+        2>/dev/null 1>&2 launchctl $cmd -w "$HOME/Library/LaunchAgents/$i.plist"
+        [ $? -eq 0 ] || echo "failed to $cmd $i"
+    done
+}
+
+if [ $# -ne 1 ]; then
+    echo "usage: wm [start|stop|reload]"
+    exit 1
+fi
+
+if [ "$1" == "stop" ] || [ "$1" == "reload" ]; then
+    exec_command stop
+fi
+
+if [ "$1" == "start" ] || [ "$1" == "reload" ]; then
+    exec_command start
+fi

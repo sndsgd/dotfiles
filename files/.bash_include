@@ -1,0 +1,333 @@
+#!/bin/bash
+
+# host OS (Darwin, Linux)
+OS_NAME=$(uname)
+
+# case-insensitive globbing (used in pathname expansion)
+shopt -s nocaseglob
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+# set variable identifying the chroot you work in (used in the prompt below)
+if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
+    debian_chroot=$(cat /etc/debian_chroot)
+fi
+
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+    source /etc/bash_completion
+fi
+
+# Prefer US English and use UTF-8
+export LANGUAGE="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8"
+export LANG="en_US"
+
+# allow for unlimited history
+export HISTSIZE=
+export HISTFILESIZE=
+
+# ignore duplicates and commands that start with a space
+export HISTCONTROL=ignoreboth
+
+# commands to keep out of the history
+export HISTIGNORE="cls:ls:pwd:exit:date:* --help"
+
+# force prompt to write history after every command
+# http://superuser.com/questions/20900/bash-history-loss
+PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+
+# prevent homebrew from submitting analytics info
+[ -e brew ] && export HOMEBREW_NO_ANALYTICS=1
+
+# stash the login timestamp & ip address
+if [ -n "$SSH_CLIENT" ]; then
+    echo $(date)" -- ${SSH_CLIENT%% *}" >> ~/.login_history
+else
+    date >> ~/.login_history
+fi
+
+[ -d /usr/local/sbin ] && PATH="/usr/local/sbin:$PATH"
+[ -d "$HOME/.composer/vendor/bin" ] && PATH="$HOME/.composer/vendor/bin:$PATH"
+[ -d "$HOME/bin" ] && PATH="$HOME/bin:$PATH"
+
+# golang paths
+if [ -d "$HOME/Documents/go" ]; then
+    export GOPATH=$HOME/Documents/go
+elif [ -d "$HOME/go" ]; then
+    export GOPATH=$HOME/go
+fi
+
+if ! [ -z ${GOPATH+x} ]; then
+    PATH="$GOPATH/bin:$PATH"
+fi
+
+export PATH
+
+
+# prompt ####################################################################
+#############################################################################
+
+prompt_git_branch() {
+    if [ $(git rev-parse --is-inside-work-tree &>/dev/null; echo "${?}") == '0' ]; then
+        # Get the short symbolic ref.
+        # If HEAD isn’t a symbolic ref, get the short SHA for the latest commit
+        local BRANCH="$(git symbolic-ref --quiet --short HEAD 2> /dev/null || \
+            git rev-parse --short HEAD 2> /dev/null)"
+
+        echo -e "$BRANCH "
+    fi
+}
+
+PS1=""
+
+[ -n "$SSH_CLIENT" ] && PS1+="\[\e[1;7m\] ssh \[\e[0m\]"
+
+# hostname
+[ "$OS_NAME" == "Darwin" ] && PS1+="\[\e[1;30;46m\] " || PS1+="\[\e[1;30;42m\] "
+PS1+="\h \[\e[0m\] "
+
+# working directory and newline
+PS1+="\[\e[2m\]\w\n\[\e[0m\]"
+
+# git branch
+PS1+="\[\e[92m\]\$(prompt_git_branch)\[\e[0m\]"
+
+# prompt
+PS1+="\\$ "
+export PS1
+
+# PS2
+PS2="\[\e[0m\]↳ "
+export PS2
+
+# update the osx terminal tab title to the current directory
+# @see http://akrabat.com/setting-os-xs-terminal-tab-to-the-current-directory
+if [ "$OS_NAME" == "Darwin" ]; then
+    function set_tab_title() {
+        echo -n -e "\033]0;${PWD##*/}\007"
+    }
+    PROMPT_COMMAND="set_tab_title ; $PROMPT_COMMAND"
+fi
+
+
+# aliases ###################################################################
+#############################################################################
+
+# enable sudo in aliases
+alias sudo='sudo '
+
+# cd shortcuts
+[ -d "$HOME/Documents/git" ] && alias g="cd $HOME/Documents/git"
+[ -d "$HOME/Downloads" ] && alias dl="cd ~/Downloads"
+
+if [ "$OS_NAME" == "Linux" ]; then
+    COLOR_FLAG="--color=auto"
+
+    # get the top 10 memory/cpu users
+    alias mem10='ps auxf | sort -nr -k 4 | head -10'
+    alias cpu10='ps auxf | sort -nr -k 3 | head -10'
+
+    # list entires from the auth log that aren't cron
+    alias log.auth="cat /var/log/auth.log | grep -v 'pam_unix(cron:session)'"
+elif [ "$OS_NAME" == "Darwin" ]; then
+    COLOR_FLAG="-G"
+
+    alias showhf="defaults write com.apple.finder AppleShowAllFiles YES; killall Finder"
+    alias hidehf="defaults write com.apple.finder AppleShowAllFiles NO; killall Finder"
+
+    # audio volume
+    alias mute="osascript -e 'set volume 0'"
+    alias loud="osascript -e 'set volume 10'"
+
+    # ip address info
+    alias localip="ipconfig getifaddr en1"
+    alias ips="ifconfig -a | grep -o 'inet6\? \(\([0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+\)\|[a-fA-F0-9:]\+\)' | sed -e 's/inet6* //'"
+
+    # kickstart
+    # use 'kickstart -activate' to activate
+    # use 'kickstart -deactivate' to deactivate
+    alias kickstart='/System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart'
+fi
+
+# more cd shortcuts
+alias t="cd /tmp"
+alias .1="cd .."
+alias .2="cd ../.."
+alias .3="cd ../../.."
+alias .4="cd ../../../../"
+alias .5="cd ../../../../.."
+
+# git
+if [ -e /usr/bin/git ]; then
+    alias gst="git status"
+    alias gci="git commit"
+    alias gca="git commit --amend"
+    alias gcm="git commit -m"
+    alias gco="git checkout"
+    alias glg="git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+    alias gbr="git branch"
+    alias gr="git remote"
+    alias gdf="git diff"
+    alias ga="git add"
+    alias gul="git pull"
+    alias gph="git push"
+    alias gcp='echo -n `git rev-parse --abbrev-ref HEAD` | pbcopy'
+fi
+
+# closure compiler
+if [ -f /usr/local/lib/google/closure/compiler.jar ]; then
+    alias jscomp='java -jar /usr/local/lib/google/closure/compiler.jar'
+fi
+
+# clear the screen and buffer
+alias cls='tput reset'
+
+# list all set bash variables
+alias setvars="( set -o posix ; set ) | less"
+
+# globbing updates
+alias eglob='shopt -s extglob'
+alias egloboff='shopt -u extglob'
+alias dglob='shopt -s dotglob'
+alias dgloboff='shopt -u dotglob'
+
+# grep
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+
+# ls
+alias ls='ls '$COLOR_FLAG
+alias ll='ls -l'
+alias lh='ls -lh'
+alias la='ls -lA'
+alias lah='ls -lAh'
+
+# count files/directories/links
+alias fcount='ls -l | grep "^-" | wc -l'
+alias dcount='ls -l | grep "^d" | wc -l'
+alias lcount='ls -l | grep "^l" | wc -l'
+
+# list only files/directories/links
+alias lsf="ls -l ${COLOR_FLAG} | grep ^-"
+alias lsd="ls -l ${COLOR_FLAG} | grep ^d"
+alias lsl="ls -l ${COLOR_FLAG} | grep ^l"
+
+alias mkdir='mkdir -pv'
+
+# ip addresses
+alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
+
+
+# functions #################################################################
+#############################################################################
+
+# make a directory and make it the current working directory
+# @param string The directory path
+function mcd() {
+    mkdir -pv $1 && cd $1
+}
+
+# write arguments or stdin to a notes file
+function note() {
+  if [ ! -z "$1" ]; then
+    echo "$@" >> "$HOME/notes.md"
+  else
+    cat - >> "$HOME/notes.md"
+  fi
+}
+
+if [ -e /usr/bin/git ]; then
+
+    # checkout a git branch
+    # @param string The partial of full branch name to checkout
+    function gcof() {
+        if [ -z "$1" ]; then
+            echo "you need to enter at least a partial branch name"
+            return 1
+        fi
+
+        local BRANCHES=$(git branch | grep $1 | sed -e s/\\*//g | xargs)
+        local COUNT=$(echo "$BRANCHES" | wc -w | xargs)
+
+        if [ $COUNT == 1 ]; then
+            git checkout "$BRANCHES"
+            return 0
+        elif [ $COUNT == 0 ]; then
+            echo "no branches found"
+            return 1
+        fi
+
+        local BRANCH=""
+        echo "found $COUNT branches"
+        for BRANCH in $BRANCHES
+        do
+            echo "- $BRANCH"
+        done
+        return 1
+    }
+
+    # remove a tag from both local and remote repos
+    # @param string The git tag to remove
+    function gitremovetag() {
+        git tag -d "$1"
+        [ "$?" == "0" ] && git push origin ":refs/tags/$1"
+    }
+
+    # recursively find modified git repos
+    function gitmod() {
+        local REPO=""
+        local DIR=""
+        local CHANGED=0
+        for REPO in $(find . -type d -name ".git"); do
+            DIR=$(dirname "$REPO")
+            cd "$DIR"
+            git status -s | grep -v '??' &> /dev/null && {
+                echo -ne "$DIR\n"
+                let CHANGED=${CHANGED}+1
+            }
+            cd - &> /dev/null
+        done
+        echo -ne "---\nfound $CHANGED repos with modifications\n"
+    }
+
+    # replace the current git config with another
+    # @param string The name of the user to become
+    function gituser() {
+        local USER="$1"
+        local GITCONFIG="$HOME/.gitconfig"
+        local FILE="$GITCONFIG-$USER"
+        if [ ! -f "$FILE" ]; then
+            echo "no git config for '$USER'"
+            return 1
+        fi
+        cp "$FILE" "$GITCONFIG"
+        if [ "$?" != 0 ]; then
+            echo "failed to copy git config for $USER"
+            return 1
+        fi
+        echo "now using $USER's gitconfig"
+    }
+fi
+
+# editor ####################################################################
+#############################################################################
+
+if [ "$OS_NAME" == "Darwin" ]; then
+    if [ -e /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl ]; then
+        alias subl='/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl'
+        export GIT_EDITOR='/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl -w'
+        export EDITOR='/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl -w'
+    fi
+fi

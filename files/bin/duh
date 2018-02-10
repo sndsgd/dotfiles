@@ -1,0 +1,33 @@
+#!/bin/bash
+# platform insensitive `du -hs` and `sort`
+# https://serverfault.com/questions/62411/how-can-i-sort-du-h-output-by-size#156648
+
+OS_NAME=$(uname)
+DIR=$1
+
+if [ "$DIR" == "" ]; then
+    DIR=$(pwd)
+fi
+
+# trim the trailing directory slash if provided
+DIR=$(echo $DIR | sed -E 's/(\/)+$//')
+
+if [ "$OS_NAME" == "Darwin" ]; then
+    if ! [ -x "$(command -v gsort)" ]; then
+        echo >&2 "missing required command 'gsort'"
+        echo >&2 "use 'brew install coreutils' to install (copied to clipboard)"
+        echo "brew install coreutils" | pbcopy
+        exit 1
+    fi
+
+    du -hs $DIR/* | gsort -hr
+    exit 0
+fi
+
+if [ "$OS_NAME" == "Linux" ]; then
+    du -hs $DIR/* | sort -hr
+    exit 0
+fi
+
+echo "unsupported OS"
+exit 1

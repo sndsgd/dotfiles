@@ -16,13 +16,11 @@ prompting before overwriting along the way.
 :warning:   This command block is here exclusively for my use. DO NOT RUN THESE IF YOU ARE NOT ME.
 
 ```sh
-REPO_URL=https://github.com/sndsgd/dotfiles/archive/master.tar.gz && \
-curl -L -s -o /tmp/dotfiles.tgz $REPO_URL && \
+curl -L -s -o /tmp/dotfiles.tgz https://github.com/sndsgd/dotfiles/archive/master.tar.gz && \
 tar -xzf /tmp/dotfiles.tgz -C /tmp && \
 rm /tmp/dotfiles.tgz && \
 source /tmp/dotfiles-master/update.sh --force && \
 rm -rf /tmp/dotfiles-master && \
-unset REPO_URL && \
 git config --global user.name "Russell"  && \
 git config --global user.email "r@snds.gd"
 ```

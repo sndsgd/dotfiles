@@ -39,7 +39,7 @@ if [ ! -f "$HOME/.bash_profile" ]; then
 fi
 
 # source `~/.bash_include` and `~/.bash_extra` from within `~/.bash_profile`
-for INCLUDE_FILE in {"",".bash_extra"}; do
+for INCLUDE_FILE in {".bash_include",".bash_extra"}; do
     INSERT_LINE='[ -f "$HOME/'$INCLUDE_FILE'" ] && source "$HOME/'$INCLUDE_FILE'"'
     if ! grep -Fxq "$INSERT_LINE" "$HOME/.bash_profile"; then
         echo "$INSERT_LINE" >> "$HOME/.bash_profile"

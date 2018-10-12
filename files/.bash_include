@@ -177,6 +177,7 @@ if [ -e /usr/bin/git ]; then
     alias gco="git checkout"
     alias glg="git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
     alias gbr="git branch"
+    alias gbrd="git for-each-ref --sort=-committerdate refs/heads/"
     alias gr="git remote"
     alias gdf="git diff"
     alias ga="git add"

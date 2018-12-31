@@ -143,6 +143,8 @@ if [ "$OS_NAME" == "Linux" ]; then
 elif [ "$OS_NAME" == "Darwin" ]; then
     COLOR_FLAG="-G"
 
+    alias srm="rm -P"
+
     alias showhf="defaults write com.apple.finder AppleShowAllFiles YES; killall Finder"
     alias hidehf="defaults write com.apple.finder AppleShowAllFiles NO; killall Finder"
 

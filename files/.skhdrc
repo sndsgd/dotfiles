@@ -1,9 +1,5 @@
 # full example here: https://github.com/koekeishiya/skhd/blob/master/examples/skhdrc
 
-
-# open terminal, blazingly fast compared to iTerm/Hyper
-cmd - return : open -a /Applications/Utilities/Terminal.app
-
 # enter fullscreen mode for the focused container
 alt - f : chunkc tiling::window --toggle fullscreen
 
@@ -11,8 +7,8 @@ alt - f : chunkc tiling::window --toggle fullscreen
 shift + alt - space : chunkc tiling::window --toggle float
 
 # change layout of desktop
-alt - e : chunkc tiling::desktop --layout bsp
-alt - s : chunkc tiling::desktop --layout monocle
+# alt - e : chunkc tiling::desktop --layout bsp
+# alt - s : chunkc tiling::desktop --layout monocle
 
 # kill focused window
 shift + alt - q : chunkc tiling::window --close
@@ -39,22 +35,24 @@ shift + ctrl - k : chunkc tiling::window --swap north
 shift + ctrl - l : chunkc tiling::window --swap east
 
 alt - r : chunkc tiling::desktop --rotate 90
+alt - e : chunkc tiling::window --toggle split
 
 # move window to another monitor
 ctrl + cmd - 1  : chunkc tiling::window --send-to-monitor 1; chunkc tiling::monitor -f 1
 ctrl + cmd - 2  : chunkc tiling::window --send-to-monitor 2; chunkc tiling::monitor -f 2
+ctrl + cmd - 3  : chunkc tiling::window --send-to-monitor 3; chunkc tiling::monitor -f 3
 
 # increase region size
-shift + alt - a : chunkc tiling::window --use-temporary-ratio 0.1 --adjust-window-edge west
-shift + alt - s : chunkc tiling::window --use-temporary-ratio 0.1 --adjust-window-edge south
-shift + alt - w : chunkc tiling::window --use-temporary-ratio 0.1 --adjust-window-edge north
-shift + alt - d : chunkc tiling::window --use-temporary-ratio 0.1 --adjust-window-edge east
+shift + alt - a : chunkc tiling::window --use-temporary-ratio 0.05 --adjust-window-edge west
+shift + alt - s : chunkc tiling::window --use-temporary-ratio 0.05 --adjust-window-edge south
+shift + alt - w : chunkc tiling::window --use-temporary-ratio 0.05 --adjust-window-edge north
+shift + alt - d : chunkc tiling::window --use-temporary-ratio 0.05 --adjust-window-edge east
 
 # decrease region size
-shift + cmd - a : chunkc tiling::window --use-temporary-ratio -0.1 --adjust-window-edge west
-shift + cmd - s : chunkc tiling::window --use-temporary-ratio -0.1 --adjust-window-edge south
-shift + cmd - w : chunkc tiling::window --use-temporary-ratio -0.1 --adjust-window-edge north
-shift + cmd - d : chunkc tiling::window --use-temporary-ratio -0.1 --adjust-window-edge east
+shift + cmd - a : chunkc tiling::window --use-temporary-ratio -0.05 --adjust-window-edge west
+shift + cmd - s : chunkc tiling::window --use-temporary-ratio -0.05 --adjust-window-edge south
+shift + cmd - w : chunkc tiling::window --use-temporary-ratio -0.05 --adjust-window-edge north
+shift + cmd - d : chunkc tiling::window --use-temporary-ratio -0.05 --adjust-window-edge east
 
 # move focused container to workspace
 # shift + alt - m : chunkc tiling::window --send-to-desktop $(chunkc get _last_active_desktop)

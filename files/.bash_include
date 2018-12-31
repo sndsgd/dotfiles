@@ -249,6 +249,45 @@ function note() {
   fi
 }
 
+# encrypt a file
+# @param string The file to encrypt
+function encrypt() {
+  if [ -z "$1" ]; then
+    echo "provide the file to encrypt as the only argument"
+    return 1
+  elif [ ! -f "$1" ]; then
+    echo "$1 does not exist"
+    return 1
+  fi
+
+  local output="$1.enc"
+  echo "encrypting into '$output'..."
+  openssl aes-256-cbc -salt -in "$1" -out "$output"
+  if [ $? == 0 ]; then
+    echo "encrypted successfully 👌"
+  fi
+}
+
+# decrypt a file
+# @param string The file to decrypt
+function decrypt() {
+  if [ -z "$1" ]; then
+    echo "provide the file to decrypt as the only argument"
+    return 1
+  elif [ ! -f "$1" ]; then
+    echo "$1 does not exist"
+    return 1
+  fi
+
+  local output=$(basename "$1" .enc)
+  echo "decrypting into '$output'..."
+  openssl aes-256-cbc -d -in "$1" -out "$output"
+  if [ $? == 0 ]; then
+    echo "decrypted successfully 👌"
+  fi
+}
+
+
 if [ -e /usr/bin/git ]; then
 
     # checkout a git branch

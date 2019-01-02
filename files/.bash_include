@@ -183,6 +183,7 @@ if [ -e /usr/bin/git ]; then
     alias gr="git remote"
     alias gdf="git diff"
     alias ga="git add"
+    alias ganw='git diff -U0 -w --no-color | git apply --cached --ignore-whitespace --unidiff-zero -'
     alias gul="git pull"
     alias gph="git push"
     alias gcp='echo -n `git rev-parse --abbrev-ref HEAD` | pbcopy'

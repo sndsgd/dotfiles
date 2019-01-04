@@ -321,6 +321,28 @@ if [ -e /usr/bin/git ]; then
         return 1
     }
 
+    # force push to the current branch
+    # @param string The remote name to force push to (defaults to "origin")
+    function gfp() {
+        local REMOTE="${1:-origin}"
+        local BRANCH=$(git rev-parse --abbrev-ref HEAD)
+        local CONFIRM
+
+        if [ "$BRANCH" == "master" ]; then
+            echo "cowardly refusing to force push to 'master'"
+            return 1
+        fi
+
+        echo -n "force push to $REMOTE/$BRANCH? "
+        read CONFIRM
+        if [ "$CONFIRM" != "y" ]; then
+            echo "aborted!"
+            return 1
+        fi
+
+        git push --force "$REMOTE" "$BRANCH"
+    }
+
     # remove a tag from both local and remote repos
     # @param string The git tag to remove
     function gitremovetag() {

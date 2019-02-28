@@ -290,6 +290,15 @@ function decrypt() {
   fi
 }
 
+# super simple "what i did" tracking
+# @param string a message about what was done
+function didit() {
+  local file="$HOME/.didit"
+  if [ ! -f "$file" ]; then
+    touch "$file"
+  fi
+  echo -e "$(date '+%Y-%m-%d %H:%M:%S'): $@\n$(cat $file)" > "$file"
+}
 
 if [ -e /usr/bin/git ]; then
 

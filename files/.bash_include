@@ -300,7 +300,7 @@ function didit() {
   echo -e "$(date '+%Y-%m-%d %H:%M:%S'): $@\n$(cat $file)" > "$file"
 }
 
-if [ -e /usr/bin/git ]; then
+if [[ -x $(command -v git) ]]; then
 
     # checkout a git branch
     # @param string The partial of full branch name to checkout
@@ -394,6 +394,27 @@ if [ -e /usr/bin/git ]; then
         echo "now using $USER's gitconfig"
     }
 fi
+
+if [[ -x $(command -v docker) ]]; then
+    # remove exited containers and dangling images
+    function docker-clean() {
+        local containers=$(docker ps -qa --no-trunc --filter "status=exited")
+        local i1=$(docker images --filter "dangling=true" -q --no-trunc)
+        local i2=$(docker images | grep "^<none>" | awk '/ / { print $3 }')
+        local images="$i1$i2"
+
+        if [[ $containers ]]; then
+            echo "removing exited containers..."
+            docker rm $containers
+        fi
+
+        if [[ $images ]]; then
+            echo "removing dangling images..."
+            docker rmi $images
+        fi
+    }
+fi
+
 
 # editor ####################################################################
 #############################################################################
